@@ -1,1 +1,1 @@
-worker: python -m tgpartner
+web: python -m tgpartner
