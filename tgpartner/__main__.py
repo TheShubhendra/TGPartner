@@ -25,11 +25,7 @@ async def start(client):
 async def main():
     logger.info(f"Starting bot in {ENV} environment.")
     if ENV == "production":
-        client = TelegramClient(
-            StringSession(STRING_SESSION),
-            APP_ID,
-            API_HASH
-            )
+        client = TelegramClient(StringSession(STRING_SESSION), APP_ID, API_HASH)
     else:
         client = TelegramClient("TGPartner", APP_ID, API_HASH)
     await client.start()
