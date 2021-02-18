@@ -1,0 +1,44 @@
+{
+   "name":"Tgpartner",
+   "description":"TGPartner is a telegram bot that works parallel with you and provide additional interface and unlimited features.",
+   "keywords":[
+      "Telegram",
+      "Bot",
+      "Telethon",
+      "Telegram-Bot",
+      "Automation",
+      "Utility",
+      "Lifestyle",
+      "Command Line"
+   ],
+   "repository":"https://github.com/TheShubhendra/TGPartner",
+   "env":{
+      "ENV":"production",
+      "APP_ID":{
+         "description":"APP_ID obtained from https://my.telegram.org",
+         "required":true
+      },
+      "API_HASH":{
+         "description":"API_HASH obtained from https://my.telegram.org",
+         "required":true
+      }
+   },
+   "WEB_CONCURRENCY":{
+      "description":"The number of processes to run.",
+      "value":"1"
+   },
+   "formation":{
+      "web":{
+         "quantity":1,
+         "size":"standard-1x"
+      }
+   },
+   "addons":[
+      {
+         "plan":"heroku-postgresql",
+         "options":{
+            "version":"13.1"
+         }
+      }
+   ]
+}
