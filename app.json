@@ -11,6 +11,7 @@
       "Lifestyle",
       "Command Line"
    ],
+   "logo":"https://github.com/TheShubhendra/TGPartner/blob/main/tgpartner.png",
    "repository":"https://github.com/TheShubhendra/TGPartner",
    "stack": "container",
    "env":{
