@@ -17,19 +17,26 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 
+
 async def start(client):
     await send_success_message(client)
+
 
 async def main():
     logger.info(f"Starting bot in {ENV} environment.")
     if ENV == "production":
-        client = TelegramClient(StringSession(STRING_SESSION), APP_ID, API_HASH)
+        client = TelegramClient(
+            StringSession(STRING_SESSION),
+            APP_ID,
+            API_HASH
+            )
     else:
         client = TelegramClient("TGPartner", APP_ID, API_HASH)
     await client.start()
     logger.info("Bot has been started.")
     await start(client)
     await client.run_until_disconnected()
+
 
 if __name__ == "__main__":
     asyncio.run(main())
