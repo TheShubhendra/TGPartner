@@ -22,6 +22,10 @@
       "API_HASH":{
          "description":"API_HASH obtained from https://my.telegram.org",
          "required":true
+      },
+      "STRING_SESSION":{
+          "description": "Session String - generate it from https://repl.it/@TheShubhendra/String-session-generator#main.py .",
+          "required":true
       }
    },
    "WEB_CONCURRENCY":{
