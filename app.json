@@ -12,6 +12,7 @@
       "Command Line"
    ],
    "repository":"https://github.com/TheShubhendra/TGPartner",
+   "stack": "heroku-20",
    "env":{
       "ENV":"production",
       "APP_ID":{
