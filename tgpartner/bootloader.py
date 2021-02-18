@@ -4,6 +4,8 @@ import os
 import logging
 
 logger = logging.getLogger()
+
+
 async def send_success_message(client):
     text = "Hello!! Your tgpartner has been started successfully."
     await client.send_message("me", text)
@@ -23,5 +25,5 @@ async def load_plugins(client):
         if file.startswith("_"):
             continue
         path = os.path.join(os.path.realpath("tgpartner/plugins"), file)
-        name = file.replace(".py","")
+        name = file.replace(".py", "")
         load_module(client, path, name)
