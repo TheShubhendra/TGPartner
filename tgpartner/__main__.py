@@ -12,6 +12,7 @@ from tgpartner.config import (
 from tgpartner.bootloader import (
     send_success_message,
     load_plugins,
+    load_core_files,
 )
 
 logging.basicConfig(
@@ -22,9 +23,10 @@ logger = logging.getLogger()
 
 
 async def start(client):
+    await load_core_files(client)
     await load_plugins(client)
     await send_success_message(client)
-
+    
 
 async def main():
     logger.info(f"Starting bot in {ENV} environment.")

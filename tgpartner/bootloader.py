@@ -12,7 +12,6 @@ async def send_success_message(client):
 
 
 def load_module(client, file_path, module_name):
-    print("Loading", module_name)
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     module = importlib.util.module_from_spec(spec)
     module.client = client
@@ -25,5 +24,16 @@ async def load_plugins(client):
         if file.startswith("_"):
             continue
         path = os.path.join(os.path.realpath("tgpartner/plugins"), file)
+        name = file.replace(".py", "")
+        try:
+            load_module(client, path, name)
+            print("Loaded plugin ", name)
+        except:
+            print("Unable to load ", name)
+async def load_core_files(client):
+    for file in os.listdir("tgpartner/core"):
+        if file.startswith("_"):
+            continue
+        path = os.path.join(os.path.realpath("tgpartner/core"), file)
         name = file.replace(".py", "")
         load_module(client, path, name)
