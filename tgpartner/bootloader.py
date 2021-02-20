@@ -30,6 +30,8 @@ async def load_plugins(client):
             print("Loaded plugin ", name)
         except:
             print("Unable to load ", name)
+
+
 async def load_core_files(client):
     for file in os.listdir("tgpartner/core"):
         if file.startswith("_"):

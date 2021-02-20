@@ -3,7 +3,8 @@ from git import Repo
 import os
 from tgpartner.config import (
     REPO_URL,
-    )
+)
+
 
 @client.on(events.NewMessage(pattern=".update", outgoing=True))
 async def update(event):

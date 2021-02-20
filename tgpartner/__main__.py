@@ -8,6 +8,7 @@ from tgpartner.config import (
     APP_ID,
     API_HASH,
     STRING_SESSION,
+    LOGGING_LEVEL,
 )
 from tgpartner.bootloader import (
     send_success_message,
@@ -17,7 +18,7 @@ from tgpartner.bootloader import (
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(message)s",
-    level=logging.INFO,
+    level=LOGGING_LEVEL,
 )
 logger = logging.getLogger()
 
@@ -26,7 +27,7 @@ async def start(client):
     await load_core_files(client)
     await load_plugins(client)
     await send_success_message(client)
-    
+
 
 async def main():
     logger.info(f"Starting bot in {ENV} environment.")
