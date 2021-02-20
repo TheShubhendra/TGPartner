@@ -10,11 +10,11 @@ from tgpartner.config import (
 async def update(event):
     await event.edit("Updating......")
     repo = Repo()
-    if "upstream" in repo.remotes:
-        upstream = repo.remote("upstream")
+    if "origin" in repo.remotes:
+        origin = repo.remote("origin")
     else:
-        upstream = repo.create_remote("upstream, REPO_URL")
+        origin = repo.create_remote("origin", REPO_URL)
     upstream.fetch()
-    repo.git.reset("--hard", "upstream/main")
+    repo.git.reset("--hard", "origin/main")
     await event.edit("Update successful, restarting the bot.")
     os.system("python3 -m tgpartner")
