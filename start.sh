@@ -1,4 +1,4 @@
 #!usr/bin/bash
-git fetch upstream main
-git reset --hard upstream/HEAD
+git fetch origin main
+git reset --hard main/HEAD
 python -m tgpartner
