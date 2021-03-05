@@ -28,7 +28,8 @@ SEN_REVERSE_ACTIVATED = False
 async def test(event):
     text = event.text
     if SEN_REVERSE_ACTIVATED:
-        await event.edit(text[::-1])
+        sen = text.split()[::-1]
+        await event.edit(" ".join(sen))
     elif WORD_REVERSE_ACTIVATED:
         words = text.split()
         words = list(map(lambda x:x[::-1],words))
