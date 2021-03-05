@@ -14,7 +14,7 @@ async def update(event):
         origin = repo.remote("origin")
     else:
         origin = repo.create_remote("origin", REPO_URL)
-    upstream.fetch()
+    origin.fetch()
     repo.git.reset("--hard", "origin/main")
     await event.edit("Update successful, restarting the bot.")
-    os.system("python3 -m tgpartner")
+    os.system("bash start.sh")
