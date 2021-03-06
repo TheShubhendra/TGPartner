@@ -48,7 +48,7 @@ async def load_plugins(client):
             load_module(client, path, name)
             print("Loaded plugin ", name)
         except Exception as e:
-            print("Unable to load ", name,e)
+            print("Unable to load ", name, e)
 
 
 async def load_core_files(client):

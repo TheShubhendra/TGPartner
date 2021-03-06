@@ -25,10 +25,7 @@ AFK_ACTIVATED = False
 AFK_MESSAGE = " "
 
 
-@client.on(
-    events.NewMessage(
-        incoming=True, func=lambda x: x.is_private or x.mentioned)
-)
+@client.on(events.NewMessage(incoming=True, func=lambda x: x.is_private or x.mentioned))
 async def handle_afk(event):
     if AFK_ACTIVATED:
         await event.reply(AFK_MESSAGE)
