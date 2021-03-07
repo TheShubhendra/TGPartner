@@ -19,14 +19,22 @@
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
 from telethon.sync import events
 import asyncio
+import psycopg2
+from decouple import config
 
-
+DATABASE_URL = config("DATABASE_URL",None)
 AFK_ACTIVATED = False
 AFK_MESSAGE = " "
-
+CON = psycopg2.connect(DATABASE_URL)
+CUR = CON.cursor()
 
 @client.on(events.NewMessage(incoming=True, func=lambda x: x.is_private or x.mentioned))
 async def handle_afk(event):
+    try:
+        CUR.execute("INSERT INTO messages (id,text) VALUES(%s, %s)",(event.sender_id, event.text))
+    except Exception as e:
+        print(e)
+    CON.commit()
     if AFK_ACTIVATED:
         await event.reply(f"I am AFK reason: {AFK_MESSAGE}")
 
