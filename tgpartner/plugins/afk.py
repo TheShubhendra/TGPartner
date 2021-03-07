@@ -36,6 +36,9 @@ async def remove_afk(event):
     global AFK_ACTIVATED
     if not AFK_ACTIVATED:
         return
+    if ",afk" in event.text:
+        await event.edit(event.text.replace(",afk",""))
+        return
     await event.respond("Afk deactivated")
     AFK_ACTIVATED = False
 
