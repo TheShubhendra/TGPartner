@@ -43,7 +43,7 @@ async def remove_afk(event):
     AFK_ACTIVATED = False
 
 
-@client.on(events.NewMessage(outgoing=True, pattern=".afk (.*)"))
+@client.on(events.NewMessage(outgoing=True, pattern="\.afk (.*)"))
 async def activate_afk(event):
     global AFK_ACTIVATED, AFK_MESSAGE
     AFK_ACTIVATED = True
