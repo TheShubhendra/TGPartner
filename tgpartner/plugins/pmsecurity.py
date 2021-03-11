@@ -24,16 +24,23 @@ from telethon.tl.functions.users import GetFullUserRequest
 from tgpartner.database import pmsecurity_api as api
 
 
-@client.on(events.NewMessage(incoming=True,outgoing=False, func=lambda e: e.is_private))
+@client.on(
+    events.NewMessage(incoming=True, outgoing=False, func=lambda e: e.is_private)
+)
 async def check_approval(event):
     if event.fwd_from:
         return
     chat_id = event.sender_id
     if api.is_approved(event.chat_id):
         return
+
+
 #    event.respond()
 
-@client.on(events.NewMessage(pattern="\.av$", outgoing=True, func= lambda e: e.is_private))
+
+@client.on(
+    events.NewMessage(pattern="\.av$", outgoing=True, func=lambda e: e.is_private)
+)
 async def approve_chat(event):
     if event.fwd_from:
         return
@@ -41,15 +48,43 @@ async def approve_chat(event):
     chat = full.user
     if api.is_approved(chat.id):
         await event.edit(
-            f"[{chat.first_name}](tg://user?id={chat.id}) is already approved in TGPartner PMSecurity system.")
+            f"[{chat.first_name}](tg://user?id={chat.id}) is already approved in TGPartner PMSecurity system."
+        )
     else:
         try:
-            api.approve(chat.id,
-            name = chat.first_name,
-            username = chat.username,
+            api.approve(
+                chat.id,
+                name=chat.first_name,
+                username=chat.username,
             )
             await event.edit(
-            f"[{chat.first_name}](tg://user?id={chat.id}) has been successfully approved in TGPartner PMSecurity system.")
+                f"[{chat.first_name}](tg://user?id={chat.id}) has been successfully approved in TGPartner PMSecurity system."
+            )
+        except Exception as e:
+            await event.edit("Some error occurred")
+            print(e)
+    await asyncio.sleep(4)
+    await event.delete()
+
+
+@client.on(
+    events.NewMessage(pattern="\.dav$", outgoing=True, func=lambda e: e.is_private)
+)
+async def disapprove_chat(event):
+    if event.fwd_from:
+        return
+    full = await event.client(GetFullUserRequest(event.chat_id))
+    chat = full.user
+    if not api.is_approved(chat.id):
+        await event.edit(
+            f"[{chat.first_name}](tg://user?id={chat.id}) is already not approved in TGPartner PMSecurity system."
+        )
+    else:
+        try:
+            api.disapprove(chat.id)
+            await event.edit(
+                f"[{chat.first_name}](tg://user?id={chat.id}) has been successfully disapproved in TGPartner PMSecurity system."
+            )
         except Exception as e:
             await event.edit("Some error occurred")
             print(e)
