@@ -26,6 +26,7 @@ from sqlalchemy import (
 from . import (
     BASE,
     ENGINE,
+    SESSION,
     )
 
 
@@ -37,3 +38,11 @@ class PMSecurity(BASE):
 
 
 BASE.metadata.create_all(ENGINE)
+
+
+def is_approved(chat_id):
+    return (
+        SESSION.query(PMSecurity).filter(
+            PMSecurity.chat_id == str(chat_id)
+            ).first() is not None
+        )
