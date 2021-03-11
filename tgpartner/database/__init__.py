@@ -19,8 +19,8 @@
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
 from sqlalchemy import (
     create_engine,
-    declarative_base,
     )
+from sqlalchemy.ext.declarative import declarative_base
 
 from tgpartner.config import DATABASE_URL
 
