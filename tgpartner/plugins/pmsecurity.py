@@ -23,8 +23,13 @@ from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.functions.contacts import BlockRequest
 
 from tgpartner.database import pmsecurity_api as api
-
+from tgpartner.config import LOGGING_GROUP
 WARNS = dict()
+MAX_WARNS = 3
+
+
+BLOCKING_TEXT = "Your have crossed the limit..So PM security is going to block you. Your all messages , chat_is has been logged successfully, no matter if you have deleted those."
+WARNING_TEXT = "Welcome to the PMSecurity system of TGPartner. You are not verified yet, so wait for my master, and don't try to spam , otherwise you will be blocked automatically." 
 
 
 @client.on(
@@ -37,9 +42,24 @@ async def check_approval(event):
     if api.is_approved(event.chat_id):
         return
     if chat_id not in WARNS.keys():
-        WARNS[chat_id] = 1
+        WARNS[chat_id] = 0
     else:
         WARNS[chat_id] += 1
+    if WARNS[chat_id]<=MAX_WARNS:
+        event.reply(WARNING_TEXT)
+        return
+    else:
+        event.reply(BLOCKING_TEXT)
+    await event.edit(f"[{event.sender.first_name}](tg://user?id={event.sender_id}) has been blocked.")
+    await asyncio.sleep(3)
+    await event.client(functions.contacts.BlockRequest(event.sender_id))
+    full = await event.client(GetFullUserRequest(event.chat_id))
+    user = full.user
+    text = f"""[{user.first_name+user.last_name}](tg://user?id={user.id})
+    chat_id : {user.id}
+    has been blocked by the PMSecurity.
+    """
+    await event.client.send_message(LOGGING_GROUP, )
 
 
 @client.on(
