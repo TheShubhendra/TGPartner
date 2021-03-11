@@ -17,3 +17,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
+from sqlalchemy import (
+    create_engine,
+    declarative_base,
+    )
+
+from tgpartner.config import DATABASE_URL
+
+
+CONNECTION = create_engine(DATABASE_URL, echo=True)
+BASE = declarative_base()
