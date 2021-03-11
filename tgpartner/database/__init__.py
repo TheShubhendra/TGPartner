@@ -25,5 +25,5 @@ from sqlalchemy import (
 from tgpartner.config import DATABASE_URL
 
 
-CONNECTION = create_engine(DATABASE_URL, echo=True)
+ENGINE = create_engine(DATABASE_URL, echo=True)
 BASE = declarative_base()
