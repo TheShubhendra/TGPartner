@@ -17,17 +17,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
-from decouple import config
+from sqlalchemy import (
+    create_engine,
+    )
+
+from sqlalchemy.orm import (
+    scoped_session,
+    sessionmaker,
+    )
+ 
+from sqlalchemy.ext.declarative import declarative_base
+
+from tgpartner.config import DATABASE_URL
 
 
-ENV = config("ENV", "development")
-APP_ID = config("APP_ID")
-API_HASH = config("API_HASH")
-
-
-# Production variables
-APP_NAME = config("APP_NAME", None)
-STRING_SESSION = config("STRING_SESSION", None)
-REPO_URL = config("REPO_URL", "https://GitHub.com/TheShubhendra/TGPartner")
-LOGGING_LEVEL = int(config("LOGGING_LEVEL", 30))
-DATABASE_URL = config("DATABASE_URL")
+ENGINE = create_engine(DATABASE_URL, echo=True)
+session_factory = sessionmaker(bind=ENGINE)
+SESSION = scoped_session(session_factory)
+BASE = declarative_base()
