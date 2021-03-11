@@ -35,6 +35,15 @@ class PMSecurity(BASE):
     chat_id = Column(String(20), primary_key = True)
     name = Column(String(100))
     username = Column(String(100))
+    
+    def __init__(self,
+        chat_id,
+        name = None,
+        username = None,
+    ):
+        self.chat_id = chat_id
+        self.name = name
+        self.username = username
 
 
 BASE.metadata.create_all(ENGINE)
@@ -46,3 +55,23 @@ def is_approved(chat_id):
             PMSecurity.chat_id == str(chat_id)
             ).first() is not None
         )
+
+
+def approve(chat_id, name=None, username=None):
+    chat = PMSecurity(
+        str(chat_id),
+        name,
+        username,
+        )
+    SESSION.add(chat)
+    SESSION.commit()
+
+def disapprove(chat_id):
+    chat = SESSION.query(PMSecurity).get(str(chat_id))
+    SESSION.delete(chat)
+    SESSION.commit()
+
+
+def get_approved_list():
+    chats = SESSION.query(PMSecurity).all()
+    return chats
