@@ -17,17 +17,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
-from decouple import config
-
-
-ENV = config("ENV", "development")
-APP_ID = config("APP_ID")
-API_HASH = config("API_HASH")
-
-
-# Production variables
-APP_NAME = config("APP_NAME", None)
-STRING_SESSION = config("STRING_SESSION", None)
-REPO_URL = config("REPO_URL", "https://GitHub.com/TheShubhendra/TGPartner")
-LOGGING_LEVEL = int(config("LOGGING_LEVEL", 30))
-DATABASE_URL = config("DATABASE_URL")
