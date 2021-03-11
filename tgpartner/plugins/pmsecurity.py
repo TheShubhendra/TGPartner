@@ -20,8 +20,11 @@
 import asyncio
 from telethon.sync import events
 from telethon.tl.functions.users import GetFullUserRequest
+from telethon.tl.functions.contacts import BlockRequest
 
 from tgpartner.database import pmsecurity_api as api
+
+WARNS = dict()
 
 
 @client.on(
@@ -33,9 +36,10 @@ async def check_approval(event):
     chat_id = event.sender_id
     if api.is_approved(event.chat_id):
         return
-
-
-#    event.respond()
+    if chat_id not in WARNS.keys():
+        WARNS[chat_id] = 1
+    else:
+        WARNS[chat_id] += 1
 
 
 @client.on(
@@ -90,3 +94,18 @@ async def disapprove_chat(event):
             print(e)
     await asyncio.sleep(4)
     await event.delete()
+
+
+@client.on(
+    events.NewMessage(pattern="\.block", outgoing=True, func=lambda e: e.is_private)
+)
+async def block_chat(event):
+    if event.fwd_from:
+        return
+    full = await event.client(GetFullUserRequest(event.chat_id))
+    chat = full.user
+    if api.is_approved(chat.id):
+        api.disapprove(chat.id)
+    await event.edit(f"[{chat.first_name}](tg://user?id={chat.id}) has been blocked.")
+    await asyncio.sleep(3)
+    await event.client(functions.contacts.BlockRequest(chat.id))
