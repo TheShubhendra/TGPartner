@@ -41,8 +41,13 @@ WARNING_TEXT = "Welcome to the PMSecurity system of TGPartner. You are not verif
 async def check_approval(event):
     if event.fwd_from:
         return
+    sender = await event.get_sender()
+    if sender.bot or sender.is_self:
+        return
+    if sender.verified:
+        return
     chat_id = event.sender_id
-    if api.is_approved(event.chat_id):
+    if api.is_approved(chat_id):
         return
     if chat_id not in WARNS.keys():
         WARNS[chat_id] = 0
