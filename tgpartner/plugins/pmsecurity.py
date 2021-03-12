@@ -151,7 +151,7 @@ async def unblock_user(event):
     chat = full.user
     await event.edit(f"Unblocking [{chat.first_name}](tg://user?id={chat.id}).")
     await asyncio.sleep(1)
-    await event.client(BlockRequest(chat.id))
+    await event.client(UnblockRequest(chat.id))
     await event.edit(
-        f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked blocked."
+        f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked."
     )
