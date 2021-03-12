@@ -31,14 +31,6 @@ CUR = CON.cursor()
 
 @client.on(events.NewMessage(incoming=True, func=lambda x: x.is_private or x.mentioned))
 async def handle_afk(event):
-    try:
-        CUR.execute(
-            "INSERT INTO messages (id,text) VALUES(%s, %s)",
-            (event.sender_id, event.text),
-        )
-    except Exception as e:
-        print(e)
-    CON.commit()
     if AFK_ACTIVATED:
         await event.reply(f"I am AFK reason: {AFK_MESSAGE}")
 
