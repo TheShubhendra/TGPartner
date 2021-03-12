@@ -2,3 +2,4 @@ GitPython
 python-decouple
 telethon==1.19.0
 psycopg2
+sqlalchemy==1.3.22
