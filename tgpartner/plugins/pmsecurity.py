@@ -20,7 +20,10 @@
 import asyncio
 from telethon.sync import events
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.functions.contacts import BlockRequest
+from telethon.tl.functions.contacts import (
+    BlockRequest,
+    UnblockRequest,
+    )
 
 from tgpartner.database import pmsecurity_api as api
 from tgpartner.config import LOGGING_GROUP
@@ -118,7 +121,7 @@ async def disapprove_chat(event):
 
 
 @client.on(
-    events.NewMessage(pattern="\.block", outgoing=True, func=lambda e: e.is_private)
+    events.NewMessage(pattern="\.block$", outgoing=True, func=lambda e: e.is_private)
 )
 async def block_chat(event):
     if event.fwd_from:
@@ -130,3 +133,21 @@ async def block_chat(event):
     await event.edit(f"[{chat.first_name}](tg://user?id={chat.id}) has been blocked.")
     await asyncio.sleep(3)
     await event.client(BlockRequest(chat.id))
+
+
+@client.on(
+    events.NewMessage(
+        pattern="\.unblock$",
+        outgoing=True,
+        func=lambda e:e.is_private,
+        )
+    )
+async def unblock_user(event):
+    if event.fwd_from:
+        return
+    full = await event.client(GetFullUserRequest(event.chat_id))
+    chat = full.user
+    await event.edit(f"Unblocking [{chat.first_name}](tg://user?id={chat.id}).")
+    await asyncio.sleep(1)
+    await event.client(BlockRequest(chat.id))
+    await event.edit(f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked blocked.")
