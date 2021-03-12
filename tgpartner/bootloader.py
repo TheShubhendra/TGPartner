@@ -39,10 +39,15 @@ def load_module(client, file_path, module_name):
 
 
 async def load_plugins(client):
-    for file in os.listdir("tgpartner/plugins"):
+    await load_general_plugins(client)
+    await load_fun_plugins(client)
+
+
+async def load_general_plugins(client):
+    for file in os.listdir("tgpartner/plugins/general"):
         if file.startswith("_"):
             continue
-        path = os.path.join(os.path.realpath("tgpartner/plugins"), file)
+        path = os.path.join(os.path.realpath("tgpartner/plugins/general"), file)
         name = file.replace(".py", "")
         try:
             load_module(client, path, name)
@@ -51,6 +56,27 @@ async def load_plugins(client):
             try:
                 os.system("pip3 install -r requirements.txt")
                 load_module(client, path, name)
+                print("Loaded plugin ", name)
+            except Exception as e:
+                print(e)
+        except Exception as e:
+            print("Unable to load ", name, e)
+
+
+async def load_fun_plugins(client):
+    for file in os.listdir("tgpartner/plugins/fun"):
+        if file.startswith("_"):
+            continue
+        path = os.path.join(os.path.realpath("tgpartner/plugins/fun"), file)
+        name = file.replace(".py", "")
+        try:
+            load_module(client, path, name)
+            print("Loaded plugin ", name)
+        except ModuleNotFoundError:
+            try:
+                os.system("pip3 install -r requirements.txt")
+                load_module(client, path, name)
+                print("Loaded plugin ", name)
             except Exception as e:
                 print(e)
         except Exception as e:
