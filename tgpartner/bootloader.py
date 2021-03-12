@@ -47,6 +47,12 @@ async def load_plugins(client):
         try:
             load_module(client, path, name)
             print("Loaded plugin ", name)
+        except ModuleNotFoundError:
+            try:
+               os.system("pip3 install -r ../requirements.txt")
+               load_module(client, path, name)
+             except Exception as e:
+                 print(e)
         except Exception as e:
             print("Unable to load ", name, e)
 
