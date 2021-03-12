@@ -23,15 +23,16 @@ from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.functions.contacts import (
     BlockRequest,
     UnblockRequest,
-    )
+)
 
 from tgpartner.database import pmsecurity_api as api
 from tgpartner.config import LOGGING_GROUP
+
 WARNS = dict()
 MAX_WARNS = 3
 
 BLOCKING_TEXT = "Your have crossed the limit..So PM security is going to block you. Your all messages , chat_is has been logged successfully, no matter if you have deleted those."
-WARNING_TEXT = "Welcome to the PMSecurity system of TGPartner. You are not verified yet, so wait for my master, and don't try to spam , otherwise you will be blocked automatically." 
+WARNING_TEXT = "Welcome to the PMSecurity system of TGPartner. You are not verified yet, so wait for my master, and don't try to spam , otherwise you will be blocked automatically."
 
 
 @client.on(
@@ -47,23 +48,24 @@ async def check_approval(event):
         WARNS[chat_id] = 0
     else:
         WARNS[chat_id] += 1
-    if WARNS[chat_id]<MAX_WARNS:
+    if WARNS[chat_id] < MAX_WARNS:
         await event.reply(WARNING_TEXT)
         return
     else:
         await event.reply(BLOCKING_TEXT)
     full = await event.client(GetFullUserRequest(event.chat_id))
     sender = full.user
-    await event.edit(f"[{sender.first_name}](tg://user?id={sender.id}) has been blocked.")
+    await event.edit(
+        f"[{sender.first_name}](tg://user?id={sender.id}) has been blocked."
+    )
     await asyncio.sleep(2)
     await event.client(BlockRequest(sender.id))
     text = f"""#Blocked
 First name: {sender.first_name}
 Last name: {sender.last_name}
-Chat id: [{sender.id)}](tg://user?id={sender.id})
-has been blocked by the PMSecurity.
-    """
-    await event.client.send_message(LOGGING_GROUP,text )
+Chat id: [{sender.id}](tg://user?id={sender.id})
+has been blocked by the PMSecurity."""
+    await event.client.send_message(LOGGING_GROUP, text)
 
 
 @client.on(
@@ -139,9 +141,9 @@ async def block_chat(event):
     events.NewMessage(
         pattern="\.unblock$",
         outgoing=True,
-        func=lambda e:e.is_private,
-        )
+        func=lambda e: e.is_private,
     )
+)
 async def unblock_user(event):
     if event.fwd_from:
         return
@@ -150,4 +152,6 @@ async def unblock_user(event):
     await event.edit(f"Unblocking [{chat.first_name}](tg://user?id={chat.id}).")
     await asyncio.sleep(1)
     await event.client(BlockRequest(chat.id))
-    await event.edit(f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked blocked.")
+    await event.edit(
+        f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked blocked."
+    )

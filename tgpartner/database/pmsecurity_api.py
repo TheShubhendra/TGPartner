@@ -21,25 +21,26 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    )
+)
 
 from . import (
     BASE,
     ENGINE,
     SESSION,
-    )
+)
 
 
 class PMSecurity(BASE):
     __tablename__ = "pmsecurity"
-    chat_id = Column(String(20), primary_key = True)
+    chat_id = Column(String(20), primary_key=True)
     name = Column(String(100))
     username = Column(String(100))
-    
-    def __init__(self,
+
+    def __init__(
+        self,
         chat_id,
-        name = None,
-        username = None,
+        name=None,
+        username=None,
     ):
         self.chat_id = chat_id
         self.name = name
@@ -51,10 +52,9 @@ BASE.metadata.create_all(ENGINE)
 
 def is_approved(chat_id):
     return (
-        SESSION.query(PMSecurity).filter(
-            PMSecurity.chat_id == str(chat_id)
-            ).first() is not None
-        )
+        SESSION.query(PMSecurity).filter(PMSecurity.chat_id == str(chat_id)).first()
+        is not None
+    )
 
 
 def approve(chat_id, name=None, username=None):
@@ -62,9 +62,10 @@ def approve(chat_id, name=None, username=None):
         str(chat_id),
         name,
         username,
-        )
+    )
     SESSION.add(chat)
     SESSION.commit()
+
 
 def disapprove(chat_id):
     chat = SESSION.query(PMSecurity).get(str(chat_id))
