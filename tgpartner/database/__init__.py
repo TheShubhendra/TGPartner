@@ -19,13 +19,13 @@
 # along with TGPartner.  If not, see <http://www.gnu.org/licenses/>.
 from sqlalchemy import (
     create_engine,
-    )
+)
 
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
-    )
- 
+)
+
 from sqlalchemy.ext.declarative import declarative_base
 
 from tgpartner.config import DATABASE_URL

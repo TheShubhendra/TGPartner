@@ -22,16 +22,20 @@ import asyncio
 import psycopg2
 from decouple import config
 
-DATABASE_URL = config("DATABASE_URL",None)
+DATABASE_URL = config("DATABASE_URL", None)
 AFK_ACTIVATED = False
 AFK_MESSAGE = " "
 CON = psycopg2.connect(DATABASE_URL)
 CUR = CON.cursor()
 
+
 @client.on(events.NewMessage(incoming=True, func=lambda x: x.is_private or x.mentioned))
 async def handle_afk(event):
     try:
-        CUR.execute("INSERT INTO messages (id,text) VALUES(%s, %s)",(event.sender_id, event.text))
+        CUR.execute(
+            "INSERT INTO messages (id,text) VALUES(%s, %s)",
+            (event.sender_id, event.text),
+        )
     except Exception as e:
         print(e)
     CON.commit()
@@ -45,7 +49,7 @@ async def remove_afk(event):
     if not AFK_ACTIVATED:
         return
     if ",afk" in event.text:
-        await event.edit(event.text.replace(",afk",""))
+        await event.edit(event.text.replace(",afk", ""))
         return
     await event.respond("Afk deactivated")
     AFK_ACTIVATED = False
