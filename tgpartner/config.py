@@ -31,4 +31,5 @@ STRING_SESSION = config("STRING_SESSION", None)
 REPO_URL = config("REPO_URL", "https://GitHub.com/TheShubhendra/TGPartner")
 LOGGING_LEVEL = int(config("LOGGING_LEVEL", 30))
 DATABASE_URL = config("DATABASE_URL")
-LOGGING_GROUP = config("LOGGING_GROUP", None)
+LOGGING_GROUP = config("LOGGING_GROUP", 'me')
+
