@@ -24,6 +24,7 @@ from telethon.tl.functions.contacts import (
     BlockRequest,
     UnblockRequest,
 )
+from decouple import config
 
 from tgpartner.database import pmsecurity_api as api
 from tgpartner.config import LOGGING_GROUP
@@ -32,7 +33,7 @@ WARNS = dict()
 MAX_WARNS = 3
 
 BLOCKING_TEXT = "Your have crossed the limit..So PM security is going to block you. Your all messages , chat_is has been logged successfully, no matter if you have deleted those."
-WARNING_TEXT = "Welcome to the PMSecurity system of TGPartner. You are not verified yet, so wait for my master, and don't try to spam , otherwise you will be blocked automatically."
+WARNING_TEXT = config("PMSECURITY_WARN","Welcome to the PMSecurity system of TGPartner. You are not verified yet, so wait for my master, and don't try to spam , otherwise you will be blocked automatically.")
 
 
 @client.on(
@@ -157,6 +158,4 @@ async def unblock_user(event):
     await event.edit(f"Unblocking [{chat.first_name}](tg://user?id={chat.id}).")
     await asyncio.sleep(1)
     await event.client(UnblockRequest(chat.id))
-    await event.edit(
-        f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked."
-    )
+    await event.edit(f"[{chat.first_name}](tg://user?id={chat.id}) has been unblocked.")
