@@ -45,6 +45,6 @@ async def auto_respond(event):
         return
     text = event.text.lower()
     for message in AUTO_RESPOND_DB.keys():
-        if message in text.split():
+        if message in text:
             await event.reply(AUTO_RESPOND_DB[message])
             return
