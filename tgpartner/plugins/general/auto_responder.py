@@ -29,7 +29,7 @@ AUTO_RESPOND_DB = {
     "morning": "Morning",
     "morno": "Morning",
     "good night": "Good Night, Take care",
-    "Hey": "Yoooo",
+    "hey": "Yoooo",
 }
 
 
