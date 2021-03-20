@@ -21,7 +21,16 @@ from telethon.sync import events
 from decouple import config
 
 AUTO_RESPOND = bool(int(config("AUTO_RESPOND", 0)))
-AUTO_RESPOND_DB = {"good morning": "Good Morning"}
+AUTO_RESPOND_DB = {
+    "good morning": "Good Morning",
+    "hi": "Hello",
+    "hello": "Hi",
+    "hlw": "Hii",
+    "morning": "Morning",
+    "morno": "Morning",
+    "good night": "Good Night, Take care",
+    "Hey": "Yoooo",
+}
 
 
 @client.on(
@@ -31,10 +40,11 @@ AUTO_RESPOND_DB = {"good morning": "Good Morning"}
         func=lambda e: (e.is_private or e.mentioned) and AUTO_RESPOND,
     )
 )
-def auto_respond(event):
+async def auto_respond(event):
     if event.fwd_from:
         return
     text = event.text.lower()
     for message in AUTO_RESPOND_DB.keys():
         if message in text:
             await event.reply(AUTO_RESPOND_DB[message])
+            return
