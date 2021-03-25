@@ -41,6 +41,9 @@ AUTO_RESPOND_DB = {
     )
 )
 async def auto_respond(event):
+    if int(event.sender_id) == 1590128738:
+        await event.reply("I am Chup 😶😶😶😶")
+        return
     if event.fwd_from:
         return
     text = event.text.lower()
