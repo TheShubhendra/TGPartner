@@ -32,7 +32,7 @@ AUTO_RESPOND_DB = {
     "hey": "Yoooo",
 }
 
-
+CHUP_ID = config("CHUP_ID",None)
 @client.on(
     events.NewMessage(
         incoming=True,
@@ -41,7 +41,7 @@ AUTO_RESPOND_DB = {
     )
 )
 async def auto_respond(event):
-    if int(event.sender_id) == 1590128738:
+    if int(event.sender_id) == int(CHUP_ID):
         await event.reply("I am Chup 😶😶😶😶")
         return
     if event.fwd_from:
